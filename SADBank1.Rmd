@@ -1,0 +1,271 @@
+---
+title: "SADBank - Standard Area Diagrams of Plant Disease Severity"
+output: 
+   flexdashboard::flex_dashboard:
+   vertical_layout: scroll
+   
+   
+---
+
+<style type="text/css">
+body{
+   font-size: 15px;
+      }
+      
+      </style>
+
+
+
+```{r, include=FALSE}
+# reading the data from file
+library(ggplot2)
+library(plotly)
+library(readr)
+library(dplyr)
+dat_sad <- read_csv ("dat_sad.csv")
+attach(dat_sad)
+dat_sad$citation <- paste(author, pub_year)
+dat_sad$study_diag <- with(dat_sad, interaction(study, diag_id))
+dat_sad$citation_diag <- with(dat_sad, interaction(citation, diag_id))
+detach(dat_sad)
+# aggregate by individidual studies
+dat_sad <- group_by(dat_sad, study)
+dat_sad1 <- filter(dat_sad, row_number()==1 )
+```
+
+
+
+
+
+
+Column {.tabset }
+-------------------------------------
+ 
+
+
+### Publications
+
+```{r, include=FALSE}
+library(plyr)
+library(dplyr)
+dat_sad2 <- ungroup(dat_sad1)
+table1 <- select(dat_sad2,crop, pathogen, pub_year, journal, country, lang, pub_type, citation)
+table1 <- arrange(table1, crop)
+```
+
+```{r}
+library(magrittr)
+library(DT)
+
+datatable(table1, rownames = FALSE, colnames = c( 'Crop', 'Pathogen','Year of publication', 'Journal', 'Country', 'Language', 'Publication type',  'Reference'), 
+          options = list(
+  pageLength = 15,
+  fontSize = 14,
+  lengthMenu = c(10, 25, 50, 100 )
+))%>%
+formatStyle(
+  c('crop', 'pathogen','pub_year','journal', 'country', 'lang', 'pub_type', 'citation'),
+  fontSize = '90%')
+
+```
+
+   
+### SAD characteristics
+
+
+```{r, include=FALSE}
+library(plyr)
+library(dplyr)
+dat_sad2 <- ungroup(dat_sad1)
+table1 <- select(dat_sad2, crop, dis_name, pathogen,  organ, col_type, n_diagrams, min_sev, max_sev, citation)
+table1 <- arrange(table1, crop)
+```
+
+```{r}
+library(magrittr)
+library(DT)
+
+datatable(table1, rownames = FALSE, colnames = c('Crop', 'Disease name', 'Pathogen', 'Organ',  'Diagram color', 'N. of diagram', 'Min. severity', 'Max. severity', 'Reference'), 
+          options = list(
+  pageLength = 15,
+  fontSize = 14,
+  lengthMenu = c(10, 25, 50, 100 )
+))%>%
+formatStyle(
+  c('crop','dis_name','pathogen','organ', 'col_type', 'n_diagrams', 'min_sev', 'max_sev', 'citation'),
+  fontSize = '90%')
+
+```
+
+
+### SAD Validation
+
+### Country
+
+```{r}
+library(plotly)
+
+
+df <- read.csv('country.csv')
+
+# light grey boundaries
+l <- list(color = toRGB("grey"), width = 0.5)
+
+# specify map projection/options
+g <- list(
+  showframe = FALSE,
+  showcoastlines = TRUE)
+
+
+plot_ly(df, z = SAD, text = COUNTRY, locations = CODE, type = 'choropleth', showscale = FALSE,
+        color = SAD, colors = c("white", "steelblue"), marker = list(line = l), title = '') %>%
+  layout(title = 'Country of the authorship of studies on the development and validation of SADs',
+         geo = g)
+
+```
+
+
+### About the SADBank
+<br>
+The **SADBank** is a repository of SADs that supplements a systematic review article published in Phytopathology. Currently, the number of SADs added to the bank is **96**. 
+
+Del Ponte EM, Pethybridge SJ, Machado FJ, Michereff SJ. Standard area diagrams for aiding disease severity estimation: systematic review and meta-analysis of the gains in precision. Phytopathology.
+
+**What is an SAD?**
+
+Standard area diagrams (SADs) are a set of pictorial representation of disease symptoms/signs in a plant organ. Each diagram of the set depicts a percent diseased area. They are also called diagrammatic scales or disease diagrams. They are designed in a range of styles, but most commonly as drawing or photographs of diseased organs represented in black-white or true-color. The number of diagrams in the set varies according to the disease. 
+
+**How are they used?**
+
+SADs are tools used during or prior to visual assessments of disease severity to "calibrate" a rater's eye with the aim to improve accuracy, precision and reliability of the estimates. During estimation, a rater assigns a percent value that should be as close as much to actual values. The diagrams in an SAD set just serves as a guide for interpolation. In most studies, SADs have proven of value especially for innately inaccurate raters and certain symptoms/signs that are more difficult to assess.
+
+
+**Last update:** 27 May 2016
+
+
+
+Column {.tabset data-width=275}
+----------------------------------
+
+
+### Articles/year
+
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(plotly)
+g_artigos <- ggplot(dat_sad1, aes(factor(pub_year), fill=lang)) + geom_bar() +
+         scale_y_continuous(breaks=seq(0, 12, 1), expand=c(0.02, 0))+
+       xlab("Year")+ ylab("Number of articles")+
+  theme_gray()+
+       theme(panel.background = element_rect(fill = 'gray92'), axis.text.x = element_text(angle = 90, hjust = 1), legend.position="none")+
+         scale_fill_manual(values = c("steelblue","brown", "limegreen"))+
+  labs(fill = "Language")
+      
+(gg <- ggplotly(g_artigos))
+``` 
+
+### N. of samples
+
+```{r}
+n_dev <- subset(dat_sad2, n_dev <1000, select = n_dev)
+g_nsamples <- ggplot(n_dev, aes(x=n_dev))+
+geom_histogram(binwidth=50, fill = "SteelBlue")+ 
+ xlab("Number of samples")+
+ ylab("Frequency")+
+ scale_x_continuous(breaks=c(0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500))+
+  theme_grey()+
+ theme(panel.background = element_rect(fill = 'grey92'))
+(gg <- ggplotly(g_nsamples, tooltip = c("count")))
+
+
+```
+
+
+### Software
+
+```{r}
+dat_sad1$sev_quant2 <- with(dat_sad1, reorder(sev_quant, sev_quant, function(x) length(x)))
+g_soft <- ggplot(dat_sad1, aes(sev_quant2)) +
+            geom_bar(fill="Steelblue") + coord_flip()+
+            scale_y_continuous(breaks=seq(0, 100, 2),
+                               expand=c(0, 0))+
+            xlab("")+ ylab("Number of studies")+
+  theme_grey()+
+            theme(panel.background = element_rect(fill = 'gray92'))+
+            scale_fill_discrete(name="Organ")
+(gg <- ggplotly(g_soft, tooltip = c("count")))
+
+```
+
+### N. of diagrams
+```{r}
+
+
+g_ndiag<- ggplot(dat_sad1, aes(x=n_diagrams))+
+geom_histogram( binwidth=1, fill = "steelblue")+ 
+ xlab("Number of diagrams in the SAD")+
+ ylab("Frequency")+
+ scale_x_continuous(breaks=c(1:12))+
+theme_grey()+
+  theme(panel.background = element_rect(fill = 'grey92'))
+(gg <- ggplotly(g_ndiag, tooltip = c("count")))
+```
+
+### Min. sev
+
+```{r}
+g_minsev <- ggplot(dat_sad2, aes(x=min_sev))+
+geom_histogram(fill = "steelblue")+ 
+ xlab("Minimum severity (%)")+
+ ylab("Frequency")+
+ scale_x_continuous(breaks=c(0:11))+
+  theme_grey()+
+  theme(panel.background = element_rect(fill = 'grey92'))
+(gg <- ggplotly(g_minsev))
+```
+
+### Max. sev
+
+```{r}
+g_maxsev <- ggplot(dat_sad2, aes(x=max_sev))+
+geom_histogram(fill = "steelblue")+ 
+ xlab("Maximum severity (%)")+
+ ylab("Frequency")+
+ scale_x_continuous(breaks=c(10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ))+
+ theme_grey()+
+  theme(panel.background = element_rect(fill = 'grey92'))
+(gg <- ggplotly(g_maxsev, tooltip = c("count")))
+```
+
+### SAD color
+
+```{r}
+dat_sad2$col_type2 <- with(dat_sad2, reorder(col_type, col_type, function(x) length(x)))
+g_color <- ggplot(dat_sad2, aes(col_type2, fill=diag_type)) +
+            geom_bar() + coord_flip()+
+            scale_y_continuous(breaks=seq(0, 100, 5), expand=c(0.02, 0))+
+            xlab("")+ ylab("Number of SADs")+
+ theme_grey()+
+            theme(panel.background = element_rect(fill = 'grey92'), legend.position = "none")+ scale_fill_manual(values = c("steelblue", "limegreen"))
+ (gg <- ggplotly(g_color, tooltip = c("count")))
+```
+
+### Max sev x ndiag
+
+```{r}
+g_rel1 <- ggplot(dat_sad2, aes(max_sev, n_diagrams))+
+geom_point(aes(alpha=0.5), size=3, colour = "limegreen",
+            position = position_jitter(width=.2))+
+ stat_smooth(colour="steelblue", size=0.75, alpha=0.1)+
+  theme_grey()+
+ theme(panel.background = element_rect(fill = 'gray92'), legend.position = "none")+
+ scale_y_continuous(breaks=c(1:12 ))+
+ ylab("Number of diagrams")+
+ xlab("Maximum severity (%)")
+(gg <- ggplotly(g_rel1))
+```
+
+
+
+
