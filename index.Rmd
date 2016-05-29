@@ -16,7 +16,7 @@ body{
       
       </style>
 
-Summary tables {data-icon="fa-table"}
+Tables {data-icon="fa-table"}
 =====================================
 
 
