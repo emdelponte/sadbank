@@ -297,10 +297,10 @@ Number of articles per year and language of the publication where EN = english, 
 **N. of samples**:
 Frequency of the number of specimens (leaf, fruit, stalk, etc.) collected in the field or experimental plots which were analyzed to determine the range of disease severity.
 
-**Actual severity measure**:
+**Software**:
 Frequency of the approach used to determine the actual severity values in the samples such as image analysis tools or instruments such as leaf area meater.
 
-**N of diagrams**: 
+**N. of diagrams**: 
 Number of diagrams depicted in an SAD set.
 
 **Min sev**:
