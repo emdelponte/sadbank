@@ -62,7 +62,7 @@ datatable(table1,
           rownames = FALSE, colnames = c('Publication year','Crop', 'Pathogen', 'Pathogen group', 'Journal', 'Country', 'Language', 'Publication type',  'Reference'), 
           options = list(
   pageLength = 25,
-  fontSize = 14,
+  fontSize = 12,
   lengthMenu = c(10, 25, 50, 100 )
 ))%>%
 formatStyle(
@@ -92,7 +92,7 @@ datatable(table1,
         rownames = FALSE, colnames = c('Publication year','Crop', 'Disease name', 'Pathogen', 'Organ',  'Diagram color', 'N. of diagrams', 'Min. Severity', 'Max. Severity', 'Reference'), 
           options = list(
   pageLength = 25,
-  fontSize = 14,
+  fontSize = 12,
   lengthMenu = c(10, 25, 50, 100 )
 ))%>%
 formatStyle(
