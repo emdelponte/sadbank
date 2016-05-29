@@ -7,6 +7,7 @@ bibliography: sad.bib
    
 ---
 
+
 <script src="https://use.fontawesome.com/682f97eaed.js"></script>
 
 <style type="text/css">
@@ -38,6 +39,14 @@ dat_sad <- group_by(dat_sad, study)
 dat_sad1 <- filter(dat_sad, row_number()==1 )
 ```
 
+
+
+
+Column {.tabset data-width=40}
+--------------------------------------
+### SADs
+
+![](sads/blast-wheat.png)
 
 
 
@@ -137,6 +146,14 @@ formatStyle(
 Summary Plots {data-icon="fa-bar-chart"}
 =====================================
 
+
+
+
+Column {.tabset data-width=61.9}
+--------------------------------------
+### SADs
+
+![](sads/blast-wheat.png)
 
 
 Column {.tabset}
@@ -322,9 +339,7 @@ Country of the research group that conducted the study.
 
 **What is SADBank?**
 
-The **SADBank** is a repository of SADs that supplements a systematic review article published in Phytopathology. Currently, the number of SADs added to the bank is
-
-`nrow(table1` 
+The **SADBank** is a repository of SADs that supplements a systematic review article published in Phytopathology. Currently, the number of SADs added to the bank is `nrow(table1` 
 
 Del Ponte EM, Pethybridge SJ, Machado FJ, Michereff SJ. Standard area diagrams for aiding disease severity estimation: systematic review and meta-analysis of the gains in precision. Phytopathology.
 
