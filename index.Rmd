@@ -7,6 +7,8 @@ bibliography: sad.bib
    
 ---
 
+<script src="https://use.fontawesome.com/682f97eaed.js"></script>
+
 <style type="text/css">
 body{
    font-size: 16px;
@@ -14,13 +16,16 @@ body{
       
       </style>
 
-# Summary tables
+Summary tables {data-icon="fa-table"}
+=====================================
+
 
 ```{r, include=FALSE}
 # reading the data from file
 library(ggplot2)
 library(plotly)
 library(readr)
+library(plyr)
 library(dplyr)
 dat_sad <- read_csv ("dat_sad.csv")
 attach(dat_sad)
@@ -46,10 +51,9 @@ Column {.tabset }
 ### Study information
 
 ```{r, include=FALSE}
-library(plyr)
-library(dplyr)
+
 dat_sad2 <- ungroup(dat_sad1)
-table1 <- select(dat_sad2, pub_year, crop, pathogen, pathogen_group, journal, country, lang, pub_type, citation)
+table1 <- select(dat_sad2, pub_year, crop, pathogen, pathogen_group, journal, country, lang, pub_type, citation, link)
 table1 <- arrange(table1, -pub_year)
 ```
 
@@ -58,15 +62,16 @@ library(magrittr)
 library(DT)
 
 datatable(table1,
+          escape = FALSE,
           class = 'cell-border stripe',
-          rownames = FALSE, colnames = c('Publication year','Crop', 'Pathogen', 'Pathogen group', 'Journal', 'Country', 'Language', 'Publication type',  'Reference'), 
+          rownames = FALSE, colnames = c('Publication year','Crop', 'Pathogen', 'Pathogen group', 'Journal', 'Country', 'Language', 'Publication type',  'Reference', 'Link'), 
           options = list(
   pageLength = 25,
   fontSize = 12,
   lengthMenu = c(10, 25, 50, 100 )
 ))%>%
 formatStyle(
-  c('crop', 'pathogen', 'pathogen_group', 'pub_year','journal', 'country', 'lang', 'pub_type', 'citation'),
+  c('crop', 'pathogen', 'pathogen_group', 'pub_year','journal', 'country', 'lang', 'pub_type', 'citation', 'link'),
   fontSize = '90%')
 
 ```
@@ -78,35 +83,60 @@ formatStyle(
 library(plyr)
 library(dplyr)
 dat_sad2 <- ungroup(dat_sad1)
-table1 <- select(dat_sad2, pub_year, crop, dis_name, pathogen,  organ, col_type, n_diagrams, min_sev, max_sev, citation)
+table1 <- select(dat_sad2, pub_year, crop, dis_name, pathogen, n_diag, organ, diag_type, col_type, n_diagrams, min_sev, max_sev, citation, link)
 
 table1 <- arrange(table1, -pub_year)
 ```
 
 ```{r}
-library(magrittr)
-library(DT)
+
 
 datatable(table1, 
+          escape = FALSE,
           class = 'cell-border stripe',
-        rownames = FALSE, colnames = c('Publication year','Crop', 'Disease name', 'Pathogen', 'Organ',  'Diagram color', 'N. of diagrams', 'Min. Severity', 'Max. Severity', 'Reference'), 
+        rownames = FALSE, colnames = c('Publication year','Crop', 'Disease name', 'Pathogen', 'N. of sets','Organ', 'Design type', 'Diagram color', 'N. of diagrams', 'Min. Severity', 'Max. Severity', 'Reference', "Link"), 
           options = list(
   pageLength = 25,
   fontSize = 12,
   lengthMenu = c(10, 25, 50, 100 )
 ))%>%
 formatStyle(
-  c('crop','dis_name','pathogen','organ', 'col_type', 'n_diagrams', 'min_sev', 'max_sev', 'citation'),
+  c('pub_year', 'crop','dis_name','pathogen', 'n_diag', 'organ', 'diag_type', 'col_type', 'n_diagrams', 'min_sev', 'max_sev', 'citation', 'link'),
   fontSize = '90%')
 
 ```
 
 
-### SAD evaluation
+### SAD validation approach 
 
+```{r, include=FALSE}
+library(plyr)
+library(dplyr)
+dat_sad2 <- ungroup(dat_sad1)
+table1 <- select(dat_sad2, pub_year, crop, dis_name, pathogen, validation, stat, coefs, n_valid, citation)
 
+table1 <- arrange(table1, -pub_year)
+```
 
-# Summary plots
+```{r}
+
+datatable(table1, 
+          class = 'cell-border stripe',
+                  rownames = FALSE, colnames = c('Publication year','Crop', 'Disease name', 'Pathogen', 'Validation approach', 'Statistics', 'Reported coefficients', 'N. of specimens assessed', 'Reference'), 
+          options = list(
+  pageLength = 25,
+  fontSize = 12,
+  lengthMenu = c(10, 25, 50, 100 )
+))%>%
+formatStyle(
+  c('pub_year', 'crop','dis_name','pathogen', 'validation', 'stat', 'coefs', 'n_valid', 'citation'),
+  fontSize = '90%')
+
+```
+
+Summary Plots {data-icon="fa-bar-chart"}
+=====================================
+
 
 
 Column {.tabset}
@@ -121,8 +151,8 @@ library(plotly)
 g_artigos <- ggplot(dat_sad1, aes(factor(pub_year), fill=lang)) + geom_bar() +
          scale_y_continuous(breaks=seq(0, 12, 1), expand=c(0.02, 0))+
        xlab("Year")+ ylab("Number of articles")+
-  theme_gray()+
-       theme(panel.background = element_rect(fill = 'gray92'), axis.text.x = element_text(angle = 90, hjust = 1), legend.position="none")+
+  theme_minimal()+
+       theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="none")+
          scale_fill_manual(values = c("steelblue","brown", "limegreen"))+
   labs(fill = "Language")
       
@@ -134,12 +164,11 @@ g_artigos <- ggplot(dat_sad1, aes(factor(pub_year), fill=lang)) + geom_bar() +
 ```{r}
 n_dev <- subset(dat_sad2, n_dev <1000, select = n_dev)
 g_nsamples <- ggplot(n_dev, aes(x=n_dev))+
-geom_histogram(binwidth=50, fill = "SteelBlue")+ 
+geom_histogram(binwidth=50, color = "white", fill = "SteelBlue")+ 
  xlab("Number of samples")+
  ylab("Frequency")+
  scale_x_continuous(breaks=c(0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500))+
-  theme_grey()+
- theme(panel.background = element_rect(fill = 'grey92'))
+  theme_minimal()
 (gg <- ggplotly(g_nsamples, tooltip = c("count")))
 
 
@@ -156,8 +185,8 @@ g_soft <- ggplot(dat_sad1, aes(sev_quant2, fill=sev_quant2)) +
             scale_y_continuous(breaks=seq(0, 100, 2),
                                expand=c(0, 0))+
             xlab("")+ ylab("Number of studies")+
-  theme_grey()+
-            theme(panel.background = element_rect(fill = 'gray92'), legend.position="none")+
+  theme_minimal()+
+            theme(legend.position="none")+
  scale_fill_hue("clarity", direction = -1)
            
 (gg <- ggplotly(g_soft, tooltip = c("count")))
@@ -169,12 +198,11 @@ g_soft <- ggplot(dat_sad1, aes(sev_quant2, fill=sev_quant2)) +
 
 
 g_ndiag<- ggplot(dat_sad1, aes(x=n_diagrams))+
-geom_histogram( binwidth=1, fill = "steelblue")+ 
+geom_histogram( binwidth=1, color = "white", fill = "steelblue")+ 
  xlab("Number of diagrams in the SAD")+
  ylab("Frequency")+
  scale_x_continuous(breaks=c(1:12))+
-theme_grey()+
-  theme(panel.background = element_rect(fill = 'grey92'))
+theme_minimal()
 (gg <- ggplotly(g_ndiag, tooltip = c("count")))
 ```
 
@@ -182,12 +210,11 @@ theme_grey()+
 
 ```{r}
 g_minsev <- ggplot(dat_sad2, aes(x=min_sev))+
-geom_histogram(fill = "steelblue")+ 
+geom_histogram(fill = "steelblue", color = "white")+ 
  xlab("Minimum severity (%)")+
  ylab("Frequency")+
  scale_x_continuous(breaks=c(0:11))+
-  theme_grey()+
-  theme(panel.background = element_rect(fill = 'grey92'))
+  theme_minimal()
 (gg <- ggplotly(g_minsev))
 ```
 
@@ -195,12 +222,11 @@ geom_histogram(fill = "steelblue")+
 
 ```{r}
 g_maxsev <- ggplot(dat_sad2, aes(x=max_sev))+
-geom_histogram(fill = "steelblue")+ 
+geom_histogram(fill = "steelblue", color = "white")+ 
  xlab("Maximum severity (%)")+
  ylab("Frequency")+
  scale_x_continuous(breaks=c(10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ))+
- theme_grey()+
-  theme(panel.background = element_rect(fill = 'grey92'))
+ theme_minimal()
 (gg <- ggplotly(g_maxsev, tooltip = c("count")))
 ```
 
@@ -212,8 +238,8 @@ g_color <- ggplot(dat_sad2, aes(col_type2, fill=diag_type)) +
             geom_bar() + coord_flip()+
             scale_y_continuous(breaks=seq(0, 100, 5), expand=c(0.02, 0))+
             xlab("")+ ylab("Number of SADs")+
- theme_grey()+
-            theme(panel.background = element_rect(fill = 'grey92'), legend.position = "none")+ scale_fill_manual(values = c("steelblue", "limegreen"))
+ theme_minimal()+
+            theme(legend.position = "none")+ scale_fill_manual(values = c("steelblue", "limegreen"))
  (gg <- ggplotly(g_color))
 ```
 
@@ -224,13 +250,16 @@ g_rel1 <- ggplot(dat_sad2, aes(max_sev, n_diagrams))+
 geom_point(aes(alpha=0.5), size=3, colour = "limegreen",
             position = position_jitter(width=.2))+
  stat_smooth(colour="steelblue", size=0.75, alpha=0.1)+
-  theme_grey()+
- theme(panel.background = element_rect(fill = 'gray92'), legend.position = "none")+
+  theme_minimal()+
+ theme(legend.position = "none")+
  scale_y_continuous(breaks=c(1:12 ))+
  ylab("Number of diagrams")+
  xlab("Maximum severity (%)")
 (gg <- ggplotly(g_rel1))
+
+
 ```
+
 
 ### Country
 
@@ -293,7 +322,9 @@ Country of the research group that conducted the study.
 
 **What is SADBank?**
 
-The **SADBank** is a repository of SADs that supplements a systematic review article published in Phytopathology. Currently, the number of SADs added to the bank is `nrow(table1` 
+The **SADBank** is a repository of SADs that supplements a systematic review article published in Phytopathology. Currently, the number of SADs added to the bank is
+
+`nrow(table1` 
 
 Del Ponte EM, Pethybridge SJ, Machado FJ, Michereff SJ. Standard area diagrams for aiding disease severity estimation: systematic review and meta-analysis of the gains in precision. Phytopathology.
 
