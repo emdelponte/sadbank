@@ -1,2 +1,2 @@
-# paper-SAD
-Datasets and codes of the meta-analysis of the gains in precision of visual severity estimates aided by standard area disease diagram sets
+# SADBank
+Datasets and codes for visual exploration in both tabular and graphical format. This is a supplemental of a manuscript reporting a systematic review of Standard Area Diagrams (SAD) for aiding visual assessments of plant disease severity followed by a meta-analysis of the gains in precision of the estimates when using the tool. The data is cvs format and bib format for the references. The html pages are accessible via GitHub pages.
