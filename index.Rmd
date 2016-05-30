@@ -4,30 +4,35 @@ output:
    flexdashboard::flex_dashboard:
    vertical_layout: scroll
 bibliography: sad.bib   
-logo: logo-sad.png
+logo: logo-sad.gif
 
    
 ---
-
-
 <script src="https://use.fontawesome.com/682f97eaed.js"></script>
-
 <style type="text/css">
-body{
-   font-size: 17px;
-      }
-      
-      </style>
-
+body {
+     font-size: 17px;
+     }
+p    {
+     padding-left: 15px; 
+     padding-right: 15px
+     }
+</style>
 
 
 ```{r, include=FALSE}
-# reading the data from file
 library(ggplot2)
 library(plotly)
 library(readr)
 library(plyr)
 library(dplyr)
+```
+
+
+```{r, include=FALSE}
+# reading the data from file
+
+
 dat_sad <- read_csv ("dat_sad.csv")
 attach(dat_sad)
 dat_sad$citation <- paste(author, pub_year)
@@ -52,11 +57,11 @@ Summary Plots {data-icon="fa-bar-chart"}
 
 
 
-Column {.tabset data-width=350}
+Column {.tabset data-width=350px}
 ----------------------------------
 
 ### <i class="fa fa-home" aria-hidden="true"></i> About 
-
+<br>
 **What is the SADBank?**
 
 The 
@@ -76,7 +81,7 @@ During estimation, the rater assigns a percent value that should be as close as 
 
 ### <i class="fa fa-bar-chart" aria-hidden="true"></i> Plotted variables description
 
-
+<br>
 **Description of plotted variables**
 
 - **Articles/year** -
@@ -109,7 +114,7 @@ Map depicting the number of studies by country of the research group that conduc
 
 ### <i class="fa fa-user" aria-hidden="true"></i> Credits
 
-
+<br>
 **SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is curated by Dr. Emerson Del Ponte, coordinator of the [Epidemiology Lab](http://www.dfp.ufv.br/epidemiology) of the Universidade Federal de Viçosa, Brazil. Other people who are key collaborators who help to maintain the database are:
 
 - Dr. Sarah J. Pethybridge, [EVADE](http://evade.pppmb.cals.cornell.edu) Lab, Cornell University, USA
@@ -126,6 +131,7 @@ Column {.tabset}
 ```{r, echo=FALSE}
 library(ggplot2)
 library(plotly)
+
 g_artigos <- ggplot(dat_sad1, aes(factor(pub_year), fill=lang)) + geom_bar() +
          scale_y_continuous(breaks=seq(0, 12, 1), expand=c(0.02, 0))+
        xlab("Year")+ ylab("Number of articles")+
@@ -148,6 +154,7 @@ geom_histogram(binwidth=50, color = "white", fill = "SteelBlue")+
  scale_x_continuous(breaks=c(0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500))+
   theme_minimal()
 (gg <- ggplotly(g_nsamples, tooltip = c("count")))
+
 
 
 ```
@@ -338,6 +345,7 @@ table1 <- arrange(table1, -pub_year)
 ```{r}
 
 datatable(table1, 
+          escape = FALSE,
           class = 'cell-border stripe',
                   rownames = FALSE, colnames = c('Publication year','Crop', 'Disease name', 'Pathogen', 'Validation approach', 'Statistics', 'Reported coefficients', 'N. of specimens assessed', 'Reference', 'Link'), 
           options = list(
