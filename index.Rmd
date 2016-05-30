@@ -1,9 +1,10 @@
 ---
-title: "SADBank - Database of Diagrams of Plant Disease Severity"
+title: "Plant Disease Severity Diagrams"
 output: 
    flexdashboard::flex_dashboard:
    vertical_layout: scroll
 bibliography: sad.bib   
+logo: logo-sad.png
 
    
 ---
