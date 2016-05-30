@@ -1,9 +1,10 @@
 ---
-title: "SADBank - Standard Area Diagrams of Plant Disease Severity"
+title: "SADBank - Database of Diagrams of Plant Disease Severity"
 output: 
    flexdashboard::flex_dashboard:
    vertical_layout: scroll
 bibliography: sad.bib   
+
    
 ---
 
@@ -17,8 +18,6 @@ body{
       
       </style>
 
-Tables {data-icon="fa-table"}
-=====================================
 
 
 ```{r, include=FALSE}
@@ -39,26 +38,6 @@ dat_sad <- group_by(dat_sad, study)
 dat_sad1 <- filter(dat_sad, row_number()==1 )
 ```
 
-
-
-
-Column {.tabset data-width=40}
---------------------------------------
-### SADs
-
-![](sads/blast-wheat.png)
-
-
-
-
-
-Column {.tabset }
--------------------------------------
- 
-
-
-### Study information
-
 ```{r, include=FALSE}
 
 dat_sad2 <- ungroup(dat_sad1)
@@ -66,94 +45,75 @@ table1 <- select(dat_sad2, pub_year, crop, pathogen, pathogen_group, journal, co
 table1 <- arrange(table1, -pub_year)
 ```
 
-```{r}
-library(magrittr)
-library(DT)
-
-datatable(table1,
-          escape = FALSE,
-          class = 'cell-border stripe',
-          rownames = FALSE, colnames = c('Publication year','Crop', 'Pathogen', 'Pathogen group', 'Journal', 'Country', 'Language', 'Publication type',  'Reference', 'Link'), 
-          options = list(
-  pageLength = 25,
-  fontSize = 12,
-  lengthMenu = c(10, 25, 50, 100 )
-))%>%
-formatStyle(
-  c('crop', 'pathogen', 'pathogen_group', 'pub_year','journal', 'country', 'lang', 'pub_type', 'citation', 'link'),
-  fontSize = '90%')
-
-```
-
-   
-### SAD characteristics
-
-```{r, include=FALSE}
-library(plyr)
-library(dplyr)
-dat_sad2 <- ungroup(dat_sad1)
-table1 <- select(dat_sad2, pub_year, crop, dis_name, pathogen, n_diag, organ, diag_type, col_type, n_diagrams, min_sev, max_sev, citation, link)
-
-table1 <- arrange(table1, -pub_year)
-```
-
-```{r}
-
-
-datatable(table1, 
-          escape = FALSE,
-          class = 'cell-border stripe',
-        rownames = FALSE, colnames = c('Publication year','Crop', 'Disease name', 'Pathogen', 'N. of sets','Organ', 'Design type', 'Diagram color', 'N. of diagrams', 'Min. Severity', 'Max. Severity', 'Reference', "Link"), 
-          options = list(
-  pageLength = 25,
-  fontSize = 12,
-  lengthMenu = c(10, 25, 50, 100 )
-))%>%
-formatStyle(
-  c('pub_year', 'crop','dis_name','pathogen', 'n_diag', 'organ', 'diag_type', 'col_type', 'n_diagrams', 'min_sev', 'max_sev', 'citation', 'link'),
-  fontSize = '90%')
-
-```
-
-
-### SAD validation approach 
-
-```{r, include=FALSE}
-library(plyr)
-library(dplyr)
-dat_sad2 <- ungroup(dat_sad1)
-table1 <- select(dat_sad2, pub_year, crop, dis_name, pathogen, validation, stat, coefs, n_valid, citation)
-
-table1 <- arrange(table1, -pub_year)
-```
-
-```{r}
-
-datatable(table1, 
-          class = 'cell-border stripe',
-                  rownames = FALSE, colnames = c('Publication year','Crop', 'Disease name', 'Pathogen', 'Validation approach', 'Statistics', 'Reported coefficients', 'N. of specimens assessed', 'Reference'), 
-          options = list(
-  pageLength = 25,
-  fontSize = 12,
-  lengthMenu = c(10, 25, 50, 100 )
-))%>%
-formatStyle(
-  c('pub_year', 'crop','dis_name','pathogen', 'validation', 'stat', 'coefs', 'n_valid', 'citation'),
-  fontSize = '90%')
-
-```
 
 Summary Plots {data-icon="fa-bar-chart"}
 =====================================
 
 
 
+Column {.tabset data-width=350}
+----------------------------------
 
-Column {.tabset data-width=61.9}
---------------------------------------
-### SADs
+### <i class="fa fa-home" aria-hidden="true"></i> About 
 
-![](sads/blast-wheat.png)
+**What is the SADBank?**
+
+The 
+**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank**  is a database of Standard Area Diagrams (SADs) of plant disease severity. The database supplements an article published in *Phytopathology* [(Del Ponte et al. 2016)](http://www.apsnet.org) which sistematically reviewed studies on SAD and summarized methods for SAD construction and validation. This database presents data from the article and is updated continuously as more SADs are made available. 
+
+
+**What are SADs?**
+
+Standard area diagrams (SADs), also know as diagrammatic scales, are a set of pictorial representation (diagram) of disease symptoms/signs in a plant organ. Each diagram depicts a percent diseased area. They are designed in a wide range of styles. Explore the [summary plots](#summary-plots) and [tables](#tables) with information on SADs extracted from the reviewed articles.
+
+**How are SADs used?**
+
+SADs are tools used during or prior to visual assessments of disease severity to "calibrate" a rater's eye with the aim to improve accuracy, precision and reliability of the estimates. 
+
+During estimation, the rater assigns a percent value that should be as close as much to "actual" values. The diagrams in the SADs serve as a guide for interpolation. In most studies, SADs have proven of value especially for innately inaccurate raters and certain symptoms/signs that are more difficult to evaluate.
+
+
+### <i class="fa fa-bar-chart" aria-hidden="true"></i> Plotted variables description
+
+
+**Description of plotted variables**
+
+- **Articles/year** -
+Number of articles published per year and language of the publication where EN = english, ES = spanish and PT = Portuguese.
+
+- **N. of samples** - 
+Frequency of the number of specimens (leaf, fruit, stalk, etc.) collected in the field or experimental plots which were analyzed to determine the range of actual disease severity.
+
+- **Software** -
+Frequency of the approach used to determine the actual severity values in the samples, including digital image analysis tools or instruments such as leaf area meater.
+
+- **N. of diagrams** - 
+Number of diagrams (severity values) depicting a percent diseased area in a SAD set.
+
+- **Min sev** - 
+Frequency of the minimum non-zero severity diagram depicted in the SAD.
+
+- **Max sev** -
+Frequency of the maximum severity diagram depicted in the SAD.
+
+- **SAD color** -
+Frequency of the color scheme used to depict the SAD such as black-white, 2-color, true-color, etc.
+
+- **Max sev vs. ndiag** -
+Scatterplot for the relationship between the number of diagrams and the maximum severity depicted in the SAD.
+
+- **Country** -
+Map depicting the number of studies by country of the research group that conducted the study.
+
+
+### <i class="fa fa-user" aria-hidden="true"></i> Credits
+
+
+**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is curated by Prof. Emerson Del Ponte, coordinator of the [Epidemiology Lab](http://www.dfp.ufv.br/epidemiology) of the Universidade Federal de Viçosa, Brazil. Other people who are key collaborators who help to maintain the database are:
+
+- Dr. Sarah J. Pethybridge, [EVADE](http://evade.pppmb.cals.cornell.edu) Lab, Cornell University, USA
+
+- Dr. Sami J. Michereff, Universidade Federal Rural de Pernambuco, Recife, Brazil
 
 
 Column {.tabset}
@@ -302,54 +262,94 @@ plot_ly(df, z = SAD, text = COUNTRY, locations = CODE, type = 'choropleth', show
 
 ```
 
-Column {.tabset data-width=300}
-----------------------------------
-
-### Variable descriptions
+Tables {data-icon="fa-table"}
+=====================================
 
 
-**Articles/year**: 
-Number of articles per year and language of the publication where EN = english, ES = spanish and PT = Portuguese
+Column {.tabset }
+-------------------------------------
+ 
+### Study information
 
-**N. of samples**:
-Frequency of the number of specimens (leaf, fruit, stalk, etc.) collected in the field or experimental plots which were analyzed to determine the range of disease severity.
 
-**Software**:
-Frequency of the approach used to determine the actual severity values in the samples such as image analysis tools or instruments such as leaf area meater.
 
-**N. of diagrams**: 
-Number of diagrams depicted in an SAD set.
+```{r}
+library(magrittr)
+library(DT)
 
-**Min sev**:
-Frequency of minimum non-zero severity depicted in the SAD.
+datatable(table1,
+          escape = FALSE,
+          class = 'cell-border stripe',
+          rownames = FALSE, colnames = c('Publication year','Crop', 'Pathogen', 'Pathogen group', 'Journal', 'Country', 'Language', 'Publication type',  'Reference', 'Link'), 
+          options = list(
+  pageLength = 25,
+  fontSize = 12,
+  lengthMenu = c(10, 25, 50, 100 )
+))%>%
+formatStyle(
+  c('crop', 'pathogen', 'pathogen_group', 'pub_year','journal', 'country', 'lang', 'pub_type', 'citation', 'link'),
+  fontSize = '90%')
 
-**Max sev**: 
-Frequency of maximum severity depicted in the SAD.
+```
 
-**SAD color**:
-Frequency of the color scheme used to depict the SAD such as black-white, 2-color, true-color, etc.
+   
+### SAD characteristics
 
-**Max sev x ndiag**:
-Relationship between the number of diagrams  and maximum severity depicted in the SAD.
+```{r, include=FALSE}
+library(plyr)
+library(dplyr)
+dat_sad2 <- ungroup(dat_sad1)
+table1 <- select(dat_sad2, pub_year, crop, dis_name, pathogen, n_diag, organ, diag_type, col_type, n_diagrams, min_sev, max_sev, citation, link)
 
-**Country**: 
-Country of the research group that conducted the study.
+table1 <- arrange(table1, -pub_year)
+```
 
-### Help and credits
+```{r}
 
-**What is SADBank?**
 
-The **SADBank** is a repository of SADs that supplements a systematic review article published in Phytopathology. Currently, the number of SADs added to the bank is `nrow(table1` 
+datatable(table1, 
+          escape = FALSE,
+          class = 'cell-border stripe',
+        rownames = FALSE, colnames = c('Publication year','Crop', 'Disease name', 'Pathogen', 'N. of sets','Organ', 'Design type', 'Diagram color', 'N. of diagrams', 'Min. Severity', 'Max. Severity', 'Reference', "Link"), 
+          options = list(
+  pageLength = 25,
+  fontSize = 12,
+  lengthMenu = c(10, 25, 50, 100 )
+))%>%
+formatStyle(
+  c('pub_year', 'crop','dis_name','pathogen', 'n_diag', 'organ', 'diag_type', 'col_type', 'n_diagrams', 'min_sev', 'max_sev', 'citation', 'link'),
+  fontSize = '90%')
 
-Del Ponte EM, Pethybridge SJ, Machado FJ, Michereff SJ. Standard area diagrams for aiding disease severity estimation: systematic review and meta-analysis of the gains in precision. Phytopathology.
+```
 
-**What is an SAD?**
 
-Standard area diagrams (SADs) are a set of pictorial representation of disease symptoms/signs in a plant organ. Each diagram of the set depicts a percent diseased area. They are also called diagrammatic scales or disease diagrams. They are designed in a range of styles, but most commonly as drawing or photographs of diseased organs represented in black-white or true-color. The number of diagrams in the set varies according to the disease. 
+### SAD validation approach 
 
-**How are they used?**
+```{r, include=FALSE}
+library(plyr)
+library(dplyr)
+dat_sad2 <- ungroup(dat_sad1)
+table1 <- select(dat_sad2, pub_year, crop, dis_name, pathogen, validation, stat, coefs, n_valid, citation, link)
 
-SADs are tools used during or prior to visual assessments of disease severity to "calibrate" a rater's eye with the aim to improve accuracy, precision and reliability of the estimates. During estimation, a rater assigns a percent value that should be as close as much to actual values. The diagrams in an SAD set just serves as a guide for interpolation. In most studies, SADs have proven of value especially for innately inaccurate raters and certain symptoms/signs that are more difficult to assess.
+table1 <- arrange(table1, -pub_year)
+```
+
+```{r}
+
+datatable(table1, 
+          class = 'cell-border stripe',
+                  rownames = FALSE, colnames = c('Publication year','Crop', 'Disease name', 'Pathogen', 'Validation approach', 'Statistics', 'Reported coefficients', 'N. of specimens assessed', 'Reference', 'Link'), 
+          options = list(
+  pageLength = 25,
+  fontSize = 12,
+  lengthMenu = c(10, 25, 50, 100 )
+))%>%
+formatStyle(
+  c('pub_year', 'crop','dis_name','pathogen', 'validation', 'stat', 'coefs', 'n_valid', 'citation', 'link'),
+  fontSize = '90%')
+
+```
+
 
 
 
