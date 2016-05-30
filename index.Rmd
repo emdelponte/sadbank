@@ -110,7 +110,7 @@ Map depicting the number of studies by country of the research group that conduc
 ### <i class="fa fa-user" aria-hidden="true"></i> Credits
 
 
-**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is curated by Prof. Emerson Del Ponte, coordinator of the [Epidemiology Lab](http://www.dfp.ufv.br/epidemiology) of the Universidade Federal de Viçosa, Brazil. Other people who are key collaborators who help to maintain the database are:
+**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is curated by Dr. Emerson Del Ponte, coordinator of the [Epidemiology Lab](http://www.dfp.ufv.br/epidemiology) of the Universidade Federal de Viçosa, Brazil. Other people who are key collaborators who help to maintain the database are:
 
 - Dr. Sarah J. Pethybridge, [EVADE](http://evade.pppmb.cals.cornell.edu) Lab, Cornell University, USA
 
