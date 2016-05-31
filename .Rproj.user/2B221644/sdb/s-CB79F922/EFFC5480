@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "body {\n     font-size: 17px;\n     }\np    {\n     padding-left: 20px; \n     padding-right: 15px;\n     padding-top:5px\n     }\n",
+    "created" : 1464664082010.000,
+    "dirty" : false,
+    "encoding" : "UTF-8-MAC",
+    "folds" : "",
+    "hash" : "2725990699",
+    "id" : "EFFC5480",
+    "lastKnownWriteTime" : 1464664976,
+    "last_content_update" : 1464664976588,
+    "path" : "~/Documents/github/SADBank/style.css",
+    "project_path" : "style.css",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "css"
+}

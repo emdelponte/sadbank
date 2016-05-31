@@ -1,22 +1,13 @@
 ---
-title: " Plant Disease Severity Diagrams"
+title: "Diagram of plant disease severity"
 output: 
-   flexdashboard::flex_dashboard:
-   vertical_layout: scroll
-   logo: logo-sad.gif
-
-   
+  flexdashboard::flex_dashboard:
+    css: style.css
+    logo: logo-sad.gif
 ---
+
 <script src="https://use.fontawesome.com/682f97eaed.js"></script>
-<style type="text/css">
-body {
-     font-size: 17px;
-     }
-p    {
-     padding-left: 15px; 
-     padding-right: 15px
-     }
-</style>
+
 
 
 ```{r, include=FALSE}
@@ -55,12 +46,11 @@ Summary Plots {data-icon="fa-bar-chart"}
 =====================================
 
 
-
 Column {.tabset data-width=350px}
 ----------------------------------
 
 ### <i class="fa fa-home" aria-hidden="true"></i> About 
-<br>
+
 **What is the SADBank?**
 
 The 
@@ -80,7 +70,6 @@ During estimation, the rater assigns a percent value that should be as close as 
 
 ### <i class="fa fa-bar-chart" aria-hidden="true"></i> Plotted variables description
 
-<br>
 **Description of plotted variables**
 
 - **Articles/year** -
@@ -113,12 +102,13 @@ Map depicting the number of studies by country of the research group that conduc
 
 ### <i class="fa fa-user" aria-hidden="true"></i> Credits
 
-<br>
 **SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is curated by Dr. Emerson Del Ponte, coordinator of the [Epidemiology Lab](http://www.dfp.ufv.br/epidemiology) of the Universidade Federal de Viçosa, Brazil. Other people who are key collaborators who help to maintain the database are:
 
 - Dr. Sarah J. Pethybridge, [EVADE](http://evade.pppmb.cals.cornell.edu) Lab, Cornell University, USA
 
 - Dr. Sami J. Michereff, Universidade Federal Rural de Pernambuco, Recife, Brazil
+
+- Franklin J. Machado, Graduate Student Epidemiology Lab UFV
 
 
 Column {.tabset}
