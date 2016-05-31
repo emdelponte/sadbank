@@ -3,8 +3,7 @@ title: " Plant Disease Severity Diagrams"
 output: 
    flexdashboard::flex_dashboard:
    vertical_layout: scroll
-bibliography: sad.bib   
-logo: logo-sad.gif
+   logo: logo-sad.gif
 
    
 ---
