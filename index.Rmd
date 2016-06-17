@@ -16,6 +16,7 @@ library(plotly)
 library(readr)
 library(plyr)
 library(dplyr)
+library(tidyr)
 ```
 
 
@@ -37,8 +38,10 @@ dat_sad1 <- filter(dat_sad, row_number()==1 )
 ```{r, include=FALSE}
 
 dat_sad2 <- ungroup(dat_sad1)
-table1 <- select(dat_sad2, pub_year, crop, pathogen, pathogen_group, journal, country, lang, pub_type, citation, link)
+table1 <- select(dat_sad2, pub_year, crop, pathogen, pathogen_group, journal, country, lang, pub_type, citation, link1, link, link2)
 table1 <- arrange(table1, -pub_year)
+table1 <- unite(table1, weblink, link1, link, link2, sep = "")
+
 ```
 
 
@@ -54,7 +57,7 @@ Column {.tabset data-width=350px}
 **What is the SADBank?**
 
 The 
-**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank**  is a database of Standard Area Diagrams (SADs) of plant disease severity. The database supplements an article published in *Phytopathology* [(Del Ponte et al. 2016)](http://www.apsnet.org) which sistematically reviewed studies on SAD and summarized methods for SAD construction and validation. This database presents data from the article and is updated continuously as more SADs are made available. 
+**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank**  is a database of Standard Area Diagrams (SADs) of plant disease severity. The database supplements an article published in *Phytopathology* [(Del Ponte et al. 2016)](http://www.apsnet.org). In this artigle, studies on SAD were systematically reviewed methods for SAD construction and validation were described. This database presents data from the article and is updated continuously as more SADs are made available. 
 
 
 **What are SADs?**
@@ -284,7 +287,7 @@ datatable(table1,
   lengthMenu = c(10, 25, 50, 100 )
 ))%>%
 formatStyle(
-  c('crop', 'pathogen', 'pathogen_group', 'pub_year','journal', 'country', 'lang', 'pub_type', 'citation', 'link'),
+  c('crop', 'pathogen', 'pathogen_group', 'pub_year','journal', 'country', 'lang', 'pub_type', 'citation', 'weblink'),
   fontSize = '90%')
 
 ```
@@ -296,9 +299,12 @@ formatStyle(
 library(plyr)
 library(dplyr)
 dat_sad2 <- ungroup(dat_sad1)
-table1 <- select(dat_sad2, pub_year, crop, dis_name, pathogen, n_diag, organ, diag_type, col_type, n_diagrams, min_sev, max_sev, citation, link)
+table1 <- select(dat_sad2, pub_year, crop, dis_name, pathogen, n_diag, organ, diag_type, col_type, n_diagrams, min_sev, max_sev, citation, link1, link, link2)
 
 table1 <- arrange(table1, -pub_year)
+table1 <- unite(table1, weblink, link1, link, link2, sep = "")
+
+
 ```
 
 ```{r}
@@ -314,7 +320,7 @@ datatable(table1,
   lengthMenu = c(10, 25, 50, 100 )
 ))%>%
 formatStyle(
-  c('pub_year', 'crop','dis_name','pathogen', 'n_diag', 'organ', 'diag_type', 'col_type', 'n_diagrams', 'min_sev', 'max_sev', 'citation', 'link'),
+  c('pub_year', 'crop','dis_name','pathogen', 'n_diag', 'organ', 'diag_type', 'col_type', 'n_diagrams', 'min_sev', 'max_sev', 'citation', 'weblink'),
   fontSize = '90%')
 
 ```
@@ -326,9 +332,11 @@ formatStyle(
 library(plyr)
 library(dplyr)
 dat_sad2 <- ungroup(dat_sad1)
-table1 <- select(dat_sad2, pub_year, crop, dis_name, pathogen, validation, stat, coefs, n_valid, citation, link)
-
+table1 <- select(dat_sad2, pub_year, crop, dis_name, pathogen, validation, stat, coefs, n_valid, citation, link1, link, link2)
 table1 <- arrange(table1, -pub_year)
+table1 <- unite(table1, weblink, link1, link, link2, sep = "")
+
+
 ```
 
 ```{r}
@@ -343,7 +351,7 @@ datatable(table1,
   lengthMenu = c(10, 25, 50, 100 )
 ))%>%
 formatStyle(
-  c('pub_year', 'crop','dis_name','pathogen', 'validation', 'stat', 'coefs', 'n_valid', 'citation', 'link'),
+  c('pub_year', 'crop','dis_name','pathogen', 'validation', 'stat', 'coefs', 'n_valid', 'citation', 'weblink'),
   fontSize = '90%')
 
 ```
