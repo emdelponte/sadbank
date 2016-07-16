@@ -9,7 +9,6 @@ output:
 <script src="https://use.fontawesome.com/682f97eaed.js"></script>
 
 
-
 ```{r, include=FALSE}
 library(ggplot2)
 library(plotly)
@@ -21,22 +20,20 @@ library(tidyr)
 
 
 ```{r, include=FALSE}
-# reading the data from file
-
-
+# Reading the data 
 dat_sad <- read_csv ("dat_sad.csv")
 attach(dat_sad)
 dat_sad$citation <- paste(author, pub_year)
 dat_sad$study_diag <- with(dat_sad, interaction(study, diag_id))
 dat_sad$citation_diag <- with(dat_sad, interaction(citation, diag_id))
 detach(dat_sad)
+
 # aggregate by individidual studies
 dat_sad <- group_by(dat_sad, study)
 dat_sad1 <- filter(dat_sad, row_number()==1 )
 ```
 
 ```{r, include=FALSE}
-
 dat_sad2 <- ungroup(dat_sad1)
 table1 <- select(dat_sad2, pub_year, crop, pathogen, pathogen_group, journal, country, lang, pub_type, citation, link1, link, link2)
 table1 <- arrange(table1, -pub_year)
@@ -48,50 +45,47 @@ table1 <- unite(table1, weblink, link1, link, link2, sep = "")
 Summary Plots {data-icon="fa-bar-chart"}
 =====================================
 
-
 Column {.tabset data-width=350px}
 ----------------------------------
 
 ### <i class="fa fa-home" aria-hidden="true"></i> About 
 
-**What is the SADBank?**
+**What is SADBank?**
 
-The 
-**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank**  is a database of Standard Area Diagrams (SADs) of plant disease severity. The database supplements an article published in *Phytopathology* [(Del Ponte et al. 2016)](http://www.apsnet.org). In this artigle, studies on SAD were systematically reviewed methods for SAD construction and validation were described. This database presents data from the article and is updated continuously as more SADs are made available. 
+**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is a database of Standard Area Diagrams (SADs) of plant disease severity. The database supplements a systematic review research article submitted to *Phytopathology* and will be updated as more SADs are published in the literature. 
 
+**How to use it? **
+
+The main two pages are [Summary](#summary-plots) and [Tables](#tables). In summary plots, characteristics related to the publication and the SAD are graphically displayed. In Tables, there are three tables with tabuluar information for the 1) publication; 2) SAD characteristics and 3) the validation approach. A weblink to access the publication is provided in the last column of each table.
 
 **What are SADs?**
 
-Standard area diagrams (SADs), also know as diagrammatic scales, are a set of pictorial representation (diagram) of disease symptoms/signs in a plant organ. Each diagram depicts a percent diseased area. They are designed in a wide range of styles. Explore the [summary plots](#summary-plots) and [tables](#tables) with information on SADs extracted from the reviewed articles.
-
+Also known as disease diagrams or diagrammatic scales, SADs are a set of pictorial representation  of disease symptoms and/or signs in a plant organ. Each diagram depicts a percent diseased area. They are designed in a wide range of styles. 
 **How are SADs used?**
 
-SADs are tools used during or prior to visual assessments of disease severity to "calibrate" a rater's eye with the aim to improve accuracy, precision and reliability of the estimates. 
-
-During estimation, the rater assigns a percent value that should be as close as much to "actual" values. The diagrams in the SADs serve as a guide for interpolation. In most studies, SADs have proven of value especially for innately inaccurate raters and certain symptoms/signs that are more difficult to evaluate.
-
+SADs are tools used during or prior to visual assessments of disease severity to "calibrate" a rater's eye and improve accuracy, precision and reliability of the estimates. During estimation, the rater assigns a percent value that should be as close as much to "actual" values. The diagrams in the SADs serve as a guide for interpolation. In most studies, SADs have proven of value especially for innately inaccurate raters and certain symptoms/signs that are more difficult to evaluate.
 
 ### <i class="fa fa-bar-chart" aria-hidden="true"></i> Plotted variables description
 
-**Description of plotted variables**
+**Description of variables**
 
 - **Articles/year** -
 Number of articles published per year and language of the publication where EN = english, ES = spanish and PT = Portuguese.
 
-- **N. of samples** - 
-Frequency of the number of specimens (leaf, fruit, stalk, etc.) collected in the field or experimental plots which were analyzed to determine the range of actual disease severity.
+- **N. of specimens** - 
+Frequency of the number of specimens (leaf, fruit, stalk, etc.) collected in the field or experimental plots and analyzed to determine the range of actual (true) disease severity, usually using digital analysis.
 
-- **Software** -
-Frequency of the approach used to determine the actual severity values in the samples, including digital image analysis tools or instruments such as leaf area meater.
+- **Actual severity estimation** -
+Frequency of the approach used to determine the actual severity values in the samples, including digital image analysis tools or instruments such as leaf area meater and planimeter.
 
 - **N. of diagrams** - 
-Number of diagrams (severity values) depicting a percent diseased area in a SAD set.
+Number of diagrams (severity values) depicting a percent diseased area in the SAD set.
 
 - **Min sev** - 
-Frequency of the minimum non-zero severity diagram depicted in the SAD.
+Frequency of the minimum non-zero severity depicted in the SAD.
 
 - **Max sev** -
-Frequency of the maximum severity diagram depicted in the SAD.
+Frequency of the maximum severity depicted in the SAD.
 
 - **SAD color** -
 Frequency of the color scheme used to depict the SAD such as black-white, 2-color, true-color, etc.
@@ -100,12 +94,12 @@ Frequency of the color scheme used to depict the SAD such as black-white, 2-colo
 Scatterplot for the relationship between the number of diagrams and the maximum severity depicted in the SAD.
 
 - **Country** -
-Map depicting the number of studies by country of the research group that conducted the study.
+Map depicting the number of studies by country of the research group conducting the study.
 
 
 ### <i class="fa fa-user" aria-hidden="true"></i> Credits
 
-**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is curated by Dr. Emerson Del Ponte, coordinator of the [Epidemiology Lab](http://www.dfp.ufv.br/epidemiology) of the Universidade Federal de Viçosa, Brazil. Other people who are key collaborators who help to maintain the database are:
+**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is curated by Prof. Emerson Del Ponte, coordinator of the [Epidemiology Lab](http://www.dfp.ufv.br/epidemiology) of the Universidade Federal de Viçosa, Brazil. People who are key collaborators and support the development of the SAD project are:
 
 - Dr. Sarah J. Pethybridge, [EVADE](http://evade.pppmb.cals.cornell.edu) Lab, Cornell University, USA
 
@@ -152,7 +146,7 @@ geom_histogram(binwidth=50, color = "white", fill = "SteelBlue")+
 ```
 
 
-### Software
+### Actual severity estimation
 
 ```{r}
 library(RColorBrewer)
@@ -220,7 +214,7 @@ g_color <- ggplot(dat_sad2, aes(col_type2, fill=diag_type)) +
  (gg <- ggplotly(g_color))
 ```
 
-### Max sev x ndiag
+### Max sev vs. ndiag
 
 ```{r}
 g_rel1 <- ggplot(dat_sad2, aes(max_sev, n_diagrams))+
@@ -242,7 +236,6 @@ geom_point(aes(alpha=0.5), size=3, colour = "limegreen",
 
 ```{r}
 library(plotly)
-
 
 df <- read.csv('country.csv')
 
@@ -270,7 +263,6 @@ Column {.tabset }
 -------------------------------------
  
 ### Study information
-
 
 
 ```{r}
@@ -308,8 +300,6 @@ table1 <- unite(table1, weblink, link1, link, link2, sep = "")
 ```
 
 ```{r}
-
-
 datatable(table1, 
           escape = FALSE,
           class = 'cell-border stripe',
@@ -322,7 +312,6 @@ datatable(table1,
 formatStyle(
   c('pub_year', 'crop','dis_name','pathogen', 'n_diag', 'organ', 'diag_type', 'col_type', 'n_diagrams', 'min_sev', 'max_sev', 'citation', 'weblink'),
   fontSize = '90%')
-
 ```
 
 
