@@ -61,6 +61,7 @@ The main two pages are [Summary](#summary-plots) and [Tables](#tables). In summa
 **What are SADs?**
 
 Also known as disease diagrams or diagrammatic scales, SADs are a set of pictorial representation  of disease symptoms and/or signs in a plant organ. Each diagram depicts a percent diseased area. They are designed in a wide range of styles. 
+
 **How are SADs used?**
 
 SADs are tools used during or prior to visual assessments of disease severity to "calibrate" a rater's eye and improve accuracy, precision and reliability of the estimates. During estimation, the rater assigns a percent value that should be as close as much to "actual" values. The diagrams in the SADs serve as a guide for interpolation. In most studies, SADs have proven of value especially for innately inaccurate raters and certain symptoms/signs that are more difficult to evaluate.
