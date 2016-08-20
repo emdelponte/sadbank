@@ -1,9 +1,9 @@
 ---
-title: "Diagram of plant disease severity"
+title: "SADBank: Standard Area Diagrams to Aid Plant Disease Severity Estimates        "
 output: 
   flexdashboard::flex_dashboard:
+    theme: flatly
     css: style.css
-    logo: logo-sad.gif
 ---
 
 <script src="https://use.fontawesome.com/682f97eaed.js"></script>
@@ -45,30 +45,29 @@ table1 <- unite(table1, weblink, link1, link, link2, sep = "")
 Summary Plots {data-icon="fa-bar-chart"}
 =====================================
 
-Column {.tabset data-width=350px}
+Column {.tabset data-width=530px}
 ----------------------------------
 
 ### <i class="fa fa-home" aria-hidden="true"></i> About 
+<b class=rev>What is SADBank</b>
 
-**What is SADBank?**
+**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is a database of Standard Area Diagrams (SADs) of plant disease severity. The database supplements a research article submitted to *Phytopathology* and will be updated as more SADs are published in the literature. 
 
-**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is a database of Standard Area Diagrams (SADs) of plant disease severity. The database supplements a systematic review research article submitted to *Phytopathology* and will be updated as more SADs are published in the literature. 
+<b class=rev>How to use it?</b>
 
-**How to use it? **
+There two pages showing [Plots](#summary-plots) (right panel of this page) and [Tables](#tables) that summarize characteristics of the peer-reviewd publication and the SADs. In Tables, there are three tables with tabuluar information for the 1) publication; 2) SAD characteristics and 3) the validation approach. A weblink allows direct access to the publication.
 
-The main two pages are [Summary](#summary-plots) and [Tables](#tables). In summary plots, characteristics related to the publication and the SAD are graphically displayed. In Tables, there are three tables with tabuluar information for the 1) publication; 2) SAD characteristics and 3) the validation approach. A weblink to access the publication is provided in the last column of each table.
-
-**What are SADs?**
+<b class=rev>What are SADs?</b>
 
 Also known as disease diagrams or diagrammatic scales, SADs are a set of pictorial representation  of disease symptoms and/or signs in a plant organ. Each diagram depicts a percent diseased area. They are designed in a wide range of styles. 
 
-**How are SADs used?**
+<b class=rev>How are SADs used?</b>
 
-SADs are tools used during or prior to visual assessments of disease severity to "calibrate" a rater's eye and improve accuracy, precision and reliability of the estimates. During estimation, the rater assigns a percent value that should be as close as much to "actual" values. The diagrams in the SADs serve as a guide for interpolation. In most studies, SADs have proven of value especially for innately inaccurate raters and certain symptoms/signs that are more difficult to evaluate.
+SADs are tools to use during or prior to visual assessments of disease severity to "calibrate" a rater's eye and improve accuracy, precision and reliability of the estimates. During estimation, the rater assigns a perceived percent value  as close as much to the reference. The diagrams  serve as a guide for interpolation. 
 
-### <i class="fa fa-bar-chart" aria-hidden="true"></i> Plotted variables description
+### <i class="fa fa-bar-chart" aria-hidden="true"></i> Variable description
+<b class=rev>Description of variables</b>
 
-**Description of variables**
 
 - **Articles/year** -
 Number of articles published per year and language of the publication where EN = english, ES = spanish and PT = Portuguese.
@@ -100,11 +99,15 @@ Map depicting the number of studies by country of the research group conducting 
 
 ### <i class="fa fa-user" aria-hidden="true"></i> Credits
 
+<b class=rev>Curator and collaborators</b>
+
 **SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is curated by Prof. Emerson Del Ponte, coordinator of the [Epidemiology Lab](http://www.dfp.ufv.br/epidemiology) of the Universidade Federal de Viçosa, Brazil. People who are key collaborators and support the development of the SAD project are:
 
 - Dr. Sarah J. Pethybridge, [EVADE](http://evade.pppmb.cals.cornell.edu) Lab, Cornell University, USA
 
 - Dr. Sami J. Michereff, Universidade Federal Rural de Pernambuco, Recife, Brazil
+
+- Dr. Clive Bock, USDA/ARS, United States
 
 - Franklin J. Machado, Graduate Student Epidemiology Lab UFV
 
@@ -123,21 +126,20 @@ g_artigos <- ggplot(dat_sad1, aes(factor(pub_year), fill=lang)) + geom_bar() +
          scale_y_continuous(breaks=seq(0, 12, 1), expand=c(0.02, 0))+
        xlab("Year")+ ylab("Number of articles")+
   theme_minimal()+
-       theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="none")+
-         scale_fill_manual(values = c("steelblue","brown", "limegreen"))+
+       theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="right")+
+         scale_fill_manual(values = c("steelblue","brown", "#3CB371"))+
   labs(fill = "Language")
       
 (gg <- ggplotly(g_artigos))
 ``` 
 
-### N. of samples
+### Number of specimens
 
 ```{r}
 n_dev <- subset(dat_sad2, n_dev <1000, select = n_dev)
 g_nsamples <- ggplot(n_dev, aes(x=n_dev))+
-geom_histogram(binwidth=50, color = "white", fill = "SteelBlue")+ 
- xlab("Number of samples")+
- ylab("Frequency")+
+geom_histogram(binwidth=50, color = "white", fill = "#3CB371")+ 
+ labs(x = "Number of samples", y = "Frequency")+
  scale_x_continuous(breaks=c(0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500))+
   theme_minimal()
 (gg <- ggplotly(g_nsamples, tooltip = c("count")))
@@ -147,13 +149,13 @@ geom_histogram(binwidth=50, color = "white", fill = "SteelBlue")+
 ```
 
 
-### Actual severity estimation
+### Method severity estimation
 
 ```{r}
 library(RColorBrewer)
 dat_sad1$sev_quant2 <- with(dat_sad1, reorder(sev_quant, sev_quant, function(x) length(x)))
-g_soft <- ggplot(dat_sad1, aes(sev_quant2, fill=sev_quant2)) +
-            geom_bar() + coord_flip()+
+g_soft <- ggplot(dat_sad1, aes(sev_quant2)) +
+            geom_bar(fill = "#3CB371") + coord_flip()+
             scale_y_continuous(breaks=seq(0, 100, 2),
                                expand=c(0, 0))+
             xlab("")+ ylab("Number of studies")+
@@ -170,7 +172,7 @@ g_soft <- ggplot(dat_sad1, aes(sev_quant2, fill=sev_quant2)) +
 
 
 g_ndiag<- ggplot(dat_sad1, aes(x=n_diagrams))+
-geom_histogram( binwidth=1, color = "white", fill = "steelblue")+ 
+geom_histogram( binwidth=1, color = "white", fill = "#3CB371")+ 
  xlab("Number of diagrams in the SAD")+
  ylab("Frequency")+
  scale_x_continuous(breaks=c(1:12))+
@@ -178,11 +180,11 @@ theme_minimal()
 (gg <- ggplotly(g_ndiag, tooltip = c("count")))
 ```
 
-### Min. sev
+### Min. severity
 
 ```{r}
 g_minsev <- ggplot(dat_sad2, aes(x=min_sev))+
-geom_histogram(fill = "steelblue", color = "white")+ 
+geom_histogram(fill = "#3CB371", color = "white")+ 
  xlab("Minimum severity (%)")+
  ylab("Frequency")+
  scale_x_continuous(breaks=c(0:11))+
@@ -190,11 +192,11 @@ geom_histogram(fill = "steelblue", color = "white")+
 (gg <- ggplotly(g_minsev))
 ```
 
-### Max. sev
+### Max. severity
 
 ```{r}
 g_maxsev <- ggplot(dat_sad2, aes(x=max_sev))+
-geom_histogram(fill = "steelblue", color = "white")+ 
+geom_histogram(fill = "#3CB371", color = "white")+ 
  xlab("Maximum severity (%)")+
  ylab("Frequency")+
  scale_x_continuous(breaks=c(10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ))+
@@ -211,15 +213,15 @@ g_color <- ggplot(dat_sad2, aes(col_type2, fill=diag_type)) +
             scale_y_continuous(breaks=seq(0, 100, 5), expand=c(0.02, 0))+
             xlab("")+ ylab("Number of SADs")+
  theme_minimal()+
-            theme(legend.position = "none")+ scale_fill_manual(values = c("steelblue", "limegreen"))
+            theme(legend.position = "right")+ scale_fill_manual(values = c("steelblue", "#3CB371"))
  (gg <- ggplotly(g_color))
 ```
 
-### Max sev vs. ndiag
+### Max. sev. and n. of diagrams
 
 ```{r}
 g_rel1 <- ggplot(dat_sad2, aes(max_sev, n_diagrams))+
-geom_point(aes(alpha=0.5), size=3, colour = "limegreen",
+geom_point(aes(alpha=0.5), size=3, colour = "#3CB371",
             position = position_jitter(width=.2))+
  stat_smooth(colour="steelblue", size=0.75, alpha=0.1)+
   theme_minimal()+
@@ -233,7 +235,7 @@ geom_point(aes(alpha=0.5), size=3, colour = "limegreen",
 ```
 
 
-### Country
+### Country research group
 
 ```{r}
 library(plotly)
@@ -250,7 +252,7 @@ g <- list(
 
 
 plot_ly(df, z = SAD, text = COUNTRY, locations = CODE, type = 'choropleth', showscale = FALSE,
-        color = SAD, colors = c("white", "steelblue"), marker = list(line = l), title = '') %>%
+        color = SAD, colors = c("white", "#3CB371"), marker = list(line = l), title = '') %>%
   layout(title = '<br>Country of the authorship of studies</br> on the development and validation of SADs',
          geo = g)
 

@@ -1,8 +1,25 @@
+@import 'https://fonts.googleapis.com/css?family=Oswald|Roboto';
+
+.rev{
+font-family: 'Oswald', sans-serif;
+font-size:20px;
+padding-bottom:5px;
+}
 body {
-     font-size: 17px;
+     font-size: 17px
      }
+
+img {
+        padding: 2px
+}
 p    {
-     padding-left: 20px; 
-     padding-right: 15px;
-     padding-top:5px
+     padding-left: 30px; 
+     padding-right: 35px;
+     padding-top:10px;
+     padding-bottom:2px
      }
+.td-limit {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "@import 'https://fonts.googleapis.com/css?family=Oswald|Roboto';\n\n.rev{\nfont-family: 'Oswald', sans-serif;\nfont-size:20px;\npadding-bottom:5px;\n}\nbody {\n     font-size: 17px\n     }\n\nimg {\n        padding: 2px\n}\np    {\n     padding-left: 30px; \n     padding-right: 35px;\n     padding-top:10px;\n     padding-bottom:2px\n     }\n.td-limit {\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: hidden;\n}\n",
+    "created" : 1471702204800.000,
+    "dirty" : false,
+    "encoding" : "UTF-8-MAC",
+    "folds" : "",
+    "hash" : "3323126000",
+    "id" : "80F3BA01",
+    "lastKnownWriteTime" : 1471706574,
+    "last_content_update" : 1471706574,
+    "path" : "~/Documents/github/SADBank/style.css",
+    "project_path" : "style.css",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "css"
+}
