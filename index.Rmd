@@ -16,6 +16,7 @@ library(readr)
 library(plyr)
 library(dplyr)
 library(tidyr)
+library(viridis)
 ```
 
 
@@ -69,31 +70,31 @@ SADs are tools to use during or prior to visual assessments of disease severity 
 <b class=rev>Description of variables</b>
 
 
-- **Articles/year** -
+**Articles/year** -
 Number of articles published per year and language of the publication where EN = english, ES = spanish and PT = Portuguese.
 
-- **N. of specimens** - 
+**N. of specimens** - 
 Frequency of the number of specimens (leaf, fruit, stalk, etc.) collected in the field or experimental plots and analyzed to determine the range of actual (true) disease severity, usually using digital analysis.
 
-- **Actual severity estimation** -
+**Actual severity estimation** -
 Frequency of the approach used to determine the actual severity values in the samples, including digital image analysis tools or instruments such as leaf area meater and planimeter.
 
-- **N. of diagrams** - 
+**N. of diagrams** - 
 Number of diagrams (severity values) depicting a percent diseased area in the SAD set.
 
-- **Min sev** - 
+**Min sev** - 
 Frequency of the minimum non-zero severity depicted in the SAD.
 
-- **Max sev** -
+**Max sev** -
 Frequency of the maximum severity depicted in the SAD.
 
-- **SAD color** -
+**SAD color** -
 Frequency of the color scheme used to depict the SAD such as black-white, 2-color, true-color, etc.
 
-- **Max sev vs. ndiag** -
+**Max sev vs. ndiag** -
 Scatterplot for the relationship between the number of diagrams and the maximum severity depicted in the SAD.
 
-- **Country** -
+**Country** -
 Map depicting the number of studies by country of the research group conducting the study.
 
 
@@ -127,7 +128,7 @@ g_artigos <- ggplot(dat_sad1, aes(factor(pub_year), fill=lang)) + geom_bar() +
        xlab("Year")+ ylab("Number of articles")+
   theme_minimal()+
        theme(axis.text.x = element_text(angle = 90, hjust = 1), legend.position="right")+
-         scale_fill_manual(values = c("steelblue","brown", "#3CB371"))+
+         scale_fill_viridis(discrete=TRUE)+
   labs(fill = "Language")
       
 (gg <- ggplotly(g_artigos))
@@ -138,7 +139,7 @@ g_artigos <- ggplot(dat_sad1, aes(factor(pub_year), fill=lang)) + geom_bar() +
 ```{r}
 n_dev <- subset(dat_sad2, n_dev <1000, select = n_dev)
 g_nsamples <- ggplot(n_dev, aes(x=n_dev))+
-geom_histogram(binwidth=50, color = "white", fill = "#3CB371")+ 
+geom_histogram(binwidth=50, color = "white", fill = "#21908d")+ 
  labs(x = "Number of samples", y = "Frequency")+
  scale_x_continuous(breaks=c(0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500))+
   theme_minimal()
@@ -155,7 +156,7 @@ geom_histogram(binwidth=50, color = "white", fill = "#3CB371")+
 library(RColorBrewer)
 dat_sad1$sev_quant2 <- with(dat_sad1, reorder(sev_quant, sev_quant, function(x) length(x)))
 g_soft <- ggplot(dat_sad1, aes(sev_quant2)) +
-            geom_bar(fill = "#3CB371") + coord_flip()+
+            geom_bar(fill = "#21908d") + coord_flip()+
             scale_y_continuous(breaks=seq(0, 100, 2),
                                expand=c(0, 0))+
             xlab("")+ ylab("Number of studies")+
@@ -172,7 +173,7 @@ g_soft <- ggplot(dat_sad1, aes(sev_quant2)) +
 
 
 g_ndiag<- ggplot(dat_sad1, aes(x=n_diagrams))+
-geom_histogram( binwidth=1, color = "white", fill = "#3CB371")+ 
+geom_histogram( binwidth=1, color = "white", fill = "#21908d")+ 
  xlab("Number of diagrams in the SAD")+
  ylab("Frequency")+
  scale_x_continuous(breaks=c(1:12))+
@@ -184,7 +185,7 @@ theme_minimal()
 
 ```{r}
 g_minsev <- ggplot(dat_sad2, aes(x=min_sev))+
-geom_histogram(fill = "#3CB371", color = "white")+ 
+geom_histogram(fill = "#21908d", color = "white")+ 
  xlab("Minimum severity (%)")+
  ylab("Frequency")+
  scale_x_continuous(breaks=c(0:11))+
@@ -196,7 +197,7 @@ geom_histogram(fill = "#3CB371", color = "white")+
 
 ```{r}
 g_maxsev <- ggplot(dat_sad2, aes(x=max_sev))+
-geom_histogram(fill = "#3CB371", color = "white")+ 
+geom_histogram(fill = "#21908d", color = "white")+ 
  xlab("Maximum severity (%)")+
  ylab("Frequency")+
  scale_x_continuous(breaks=c(10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ))+
@@ -213,7 +214,7 @@ g_color <- ggplot(dat_sad2, aes(col_type2, fill=diag_type)) +
             scale_y_continuous(breaks=seq(0, 100, 5), expand=c(0.02, 0))+
             xlab("")+ ylab("Number of SADs")+
  theme_minimal()+
-            theme(legend.position = "right")+ scale_fill_manual(values = c("steelblue", "#3CB371"))
+            theme(legend.position = "right")+ scale_fill_viridis(discrete = TRUE)
  (gg <- ggplotly(g_color))
 ```
 
@@ -221,9 +222,9 @@ g_color <- ggplot(dat_sad2, aes(col_type2, fill=diag_type)) +
 
 ```{r}
 g_rel1 <- ggplot(dat_sad2, aes(max_sev, n_diagrams))+
-geom_point(aes(alpha=0.5), size=3, colour = "#3CB371",
+geom_point(aes(alpha=0.5), size=3, colour = "#21908d",
             position = position_jitter(width=.2))+
- stat_smooth(colour="steelblue", size=0.75, alpha=0.1)+
+ stat_smooth(colour="#21908d", size=0.75, alpha=0.1)+
   theme_minimal()+
  theme(legend.position = "none")+
  scale_y_continuous(breaks=c(1:12 ))+
@@ -252,7 +253,7 @@ g <- list(
 
 
 plot_ly(df, z = SAD, text = COUNTRY, locations = CODE, type = 'choropleth', showscale = FALSE,
-        color = SAD, colors = c("white", "#3CB371"), marker = list(line = l), title = '') %>%
+        color = SAD, colors = c("white", "#21908d"), marker = list(line = l), title = '') %>%
   layout(title = '<br>Country of the authorship of studies</br> on the development and validation of SADs',
          geo = g)
 
