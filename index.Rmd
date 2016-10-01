@@ -137,7 +137,7 @@ g_artigos <- ggplot(dat_sad1, aes(factor(pub_year), fill=lang))+ geom_bar() +
 
 ### Number of specimens
 
-```{r}
+```{r, echo=FALSE}
 n_dev <- subset(dat_sad2, n_dev <1000, select = n_dev)
 g_nsamples <- ggplot(n_dev, aes(x=n_dev))+
 geom_histogram(binwidth=50, color = "white", fill = "#21908d")+ 
