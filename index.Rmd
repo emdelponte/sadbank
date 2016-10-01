@@ -17,6 +17,7 @@ library(plyr)
 library(dplyr)
 library(tidyr)
 library(viridis)
+library(magrittr)
 ```
 
 
@@ -52,7 +53,7 @@ Column {.tabset data-width=530px}
 ### <i class="fa fa-home" aria-hidden="true"></i> About 
 <b class=rev>What is SADBank</b>
 
-**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is a database of Standard Area Diagrams (SADs) of plant disease severity. The database supplements a research article submitted to *Phytopathology* and will be updated as more SADs are published in the literature. 
+**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is a database of Standard Area Diagrams (SADs) of plant disease severity. The database supplements a research article to be submitted to *Plant Pathology* and will be updated as more SADs are published in the literature. 
 
 <b class=rev>How to use it?</b>
 
@@ -123,7 +124,7 @@ Column {.tabset}
 library(ggplot2)
 library(plotly)
 
-g_artigos <- ggplot(dat_sad1, aes(factor(pub_year), fill=lang)) + geom_bar() +
+g_artigos <- ggplot(dat_sad1, aes(factor(pub_year), fill=lang))+ geom_bar() +
          scale_y_continuous(breaks=seq(0, 12, 1), expand=c(0.02, 0))+
        xlab("Year")+ ylab("Number of articles")+
   theme_minimal()+
@@ -238,7 +239,7 @@ geom_point(aes(alpha=0.5), size=3, colour = "#21908d",
 
 ### Country research group
 
-```{r}
+```{r, eval=FALSE, include=FALSE}
 library(plotly)
 
 df <- read.csv('country.csv')
