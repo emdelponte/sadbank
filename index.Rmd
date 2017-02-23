@@ -53,15 +53,15 @@ Column {.tabset data-width=530px}
 ### <i class="fa fa-home" aria-hidden="true"></i> About 
 <b class=rev>What is SADBank</b>
 
-**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is a database of Standard Area Diagrams (SADs) of plant disease severity. The database supplements a research article to be submitted to *Plant Pathology* and will be updated as more SADs are published in the literature. 
+**SAD<i class="fa fa-leaf" aria-hidden="true"></i>Bank** is a database of Standard Area Diagrams (SADs) of plant disease severity. The database supplements a research article  submitted to *Phytopathology* and will be updated as more SADs are published in the literature. 
 
 <b class=rev>How to use it?</b>
 
-There two pages showing [Plots](#summary-plots) (right panel of this page) and [Tables](#tables) that summarize characteristics of the peer-reviewd publication and the SADs. In Tables, there are three tables with tabuluar information for the 1) publication; 2) SAD characteristics and 3) the validation approach. A weblink allows direct access to the publication.
+There are two pages, on for the [Plots](#summary-plots) (right panel on this page) and [Tables](#tables) that summarize characteristics of the peer-reviewd publication and the SADs. There are three tables with tabuluar information for the 1) publication; 2) SAD characteristics and 3) the validation approach. A weblink allows direct access to the publication.
 
 <b class=rev>What are SADs?</b>
 
-Also known as disease diagrams or diagrammatic scales, SADs are a set of pictorial representation  of disease symptoms and/or signs in a plant organ. Each diagram depicts a percent diseased area. They are designed in a wide range of styles. 
+SADs are a set of pictorial representation  of disease symptoms and/or signs in a plant organ. Each diagram depicts a percent diseased area. They are designed in a wide range of styles. 
 
 <b class=rev>How are SADs used?</b>
 
