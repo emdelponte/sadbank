@@ -1,0 +1,35 @@
+---
+title: "Article search"
+description: |
+  Apply the filters to reorder or use enter any word on the search box. The link icon will direct you to the publiser website to get the full article.
+output:
+  distill::distill_article
+
+---
+
+
+```{r setup, include=FALSE}
+source("readdata.R", local = knitr::knit_global())
+```
+
+
+```{r echo=FALSE, layout="l-page"}
+library(DT)
+datatable(table1, 
+          escape = FALSE,
+          class = 'cell-border stripe',
+        rownames = FALSE, colnames = c('Year','Crop', 'Pathogen',  'Pathogen group', 'Organ', 'citation', 'Ref'), 
+          options = list(
+  pageLength = 10,
+  fontSize = 12,
+  lengthMenu = c(25, 50, 100, 500 )
+))%>%
+formatStyle(
+  c('pub_year', 'crop',  'pathogen', 'pathogen_group', 'organ',   'citation', 'weblink'),
+  fontSize = '90%')
+
+```
+
+
+
+
