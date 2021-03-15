@@ -8,33 +8,41 @@ output:
 ---
 
 
+
 ```{r setup, include=FALSE}
 source("readdata.R", local = knitr::knit_global())
 
 library(janitor)
 library(cowplot)
 library(see)
+library(plotly)
 ```
+
+## SADs over time
 
 ```{r echo=FALSE}
 
 
-table1 %>% 
+p0 <- table1 %>% 
     ggplot(aes(pub_year, fill = pathogen_group))+
   geom_bar()+
   theme_minimal_hgrid()+
   scale_fill_see_d()+
   labs(x = "Publication year",
-       y = "Number of articles",
+       y = "Number of SADs",
        fill = "Pathogen group")
+ggplotly(p0)
   
 
 ```
 
+## SADs by crop
+
+The top 20 most represented crops with SADs are shown
 
 ```{r echo=FALSE}
 
-table1 %>% 
+p1 <- table1 %>% 
   tabyl(crop, organ) %>% 
   pivot_longer(2:15, names_to = "organ", values_to = "n") %>% 
   filter(n >0) %>%
@@ -49,7 +57,34 @@ table1 %>%
   coord_flip()+
   scale_fill_flat_c()+
   labs(x = "",
-       y = "Number of articles",
-       fill = "Pathogen group")
+       y = "Number of SADs",
+       fill = "Count")
+ggplotly(p1)
 ```
 
+
+## SADs by pathogen
+
+The top 20 most represented pathogen with SADs are shown
+
+```{r echo=FALSE}
+
+p2 <- table1 %>% 
+  tabyl(pathogen, organ) %>% 
+  pivot_longer(2:15, names_to = "organ", values_to = "n") %>% 
+  filter(n >0) %>%
+    select(-2) %>% 
+  group_by(pathogen) %>% 
+  summarize(n2 = sum(n)) %>% 
+  arrange(-n2) %>% 
+   head(20) %>% 
+    ggplot(aes(reorder(pathogen,n2), n2, fill = n2))+
+  geom_col()+
+  theme_minimal_vgrid()+
+  coord_flip()+
+  scale_fill_flat_c()+
+  labs(x = "",
+       y = "Number of SADs",
+       fill = "Count")
+ggplotly(p2)
+```

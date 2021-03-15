@@ -1,7 +1,5 @@
 ---
 title: "Article search"
-description: |
-  Apply the filters to reorder or use enter any word on the search box. The link icon will direct you to the publiser website to get the full article.
 output:
   distill::distill_article
 
@@ -12,6 +10,7 @@ output:
 source("readdata.R", local = knitr::knit_global())
 ```
 
+Total number of SADs **`r nrow(table1)`**. Apply the filters to reorder or use enter any word on the search box. The link icon will direct you to the publisher website to get the full article.
 
 ```{r include=FALSE, layout="l-page"}
 library(crosstalk)
@@ -19,12 +18,12 @@ sd <- SharedData$new(table1)
 ```
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, layout="l-page"}
 bscols(
 
  filter_slider("year", "Publication year", sd, ~pub_year, round = TRUE),
- filter_select("Crop name", "Crop name", sd, ~crop),
-  filter_select("Pathogen species", "Pathogen species name", sd, ~pathogen)
+ filter_select("cropname", "Crop name", sd, ~crop),
+  filter_select("pathogen", "Pathogen species name", sd, ~pathogen)
 
 )
 
@@ -38,7 +37,7 @@ datatable(sd,
           class = 'cell-border stripe',
         rownames = FALSE, colnames = c('Year','Crop', 'Pathogen',  'Pathogen group', 'Organ', 'citation', 'Ref'), 
           options = list(
-  pageLength = 10,
+  pageLength = 12,
   fontSize = 12,
   lengthMenu = c(25, 50, 100, 500 )
 ))%>%
