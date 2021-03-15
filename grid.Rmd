@@ -13,9 +13,27 @@ source("readdata.R", local = knitr::knit_global())
 ```
 
 
+```{r include=FALSE, layout="l-page"}
+library(crosstalk)
+sd <- SharedData$new(table1)
+```
+
+
+```{r echo=FALSE}
+bscols(
+
+ filter_slider("year", "Publication year", sd, ~pub_year, round = TRUE),
+ filter_select("Crop name", "Crop name", sd, ~crop),
+  filter_select("Pathogen species", "Pathogen species name", sd, ~pathogen)
+
+)
+
+```
+
+
 ```{r echo=FALSE, layout="l-page"}
 library(DT)
-datatable(table1, 
+datatable(sd, 
           escape = FALSE,
           class = 'cell-border stripe',
         rownames = FALSE, colnames = c('Year','Crop', 'Pathogen',  'Pathogen group', 'Organ', 'citation', 'Ref'), 
