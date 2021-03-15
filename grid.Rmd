@@ -44,7 +44,7 @@ datatable(sd,
 ))%>%
 formatStyle(
   c('pub_year', 'crop',  'pathogen', 'pathogen_group', 'organ',   'citation', 'weblink'),
-  fontSize = '90%')
+  fontSize = '130%')
 
 ```
 
