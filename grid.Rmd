@@ -10,7 +10,7 @@ output:
 source("readdata.R", local = knitr::knit_global())
 ```
 
-Total number of SADs **`r nrow(table1)`**. Apply the filters to reorder or use enter any word on the search box. The link icon will direct you to the publisher website to get the full article.
+Total number of SADs **`r nrow(table1)`**. Apply the filters to reorder or  enter any word in the search box. The link icon will direct you to the publisher website to get the full article.
 
 ```{r include=FALSE, layout="l-page"}
 library(crosstalk)
