@@ -1,13 +1,123 @@
+
 ---
-title: "Introduction"
-site: distill::distill_website
+title: "SADBank - A database of standard area diagrams"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    theme: 
+      version: 4
+      navbar-bg: "#1E4571"
+      bootswatch: yeti
+    social: menu
+    source: embed
+      
 ---
 
-![](front-image.png)
+```{r setup, include=FALSE}
+library(tidyverse)
+library(flexdashboard)
+library(janitor)
+library(readxl)
+library(cowplot)
+library(see)
+library(plotly)
+library(gsheet)
+library(googlesheets4)
+dat_sad <- gsheet2tbl("https://docs.google.com/spreadsheets/d/1oBa_OIko04157D0-Z0tV7dN8BJxq9fAjEfbOkoSKy5s/edit?usp=sharing")
+attach(dat_sad)
+dat_sad$citation <- paste(author, pub_year)
+dat_sad$study_diag <- with(dat_sad, interaction(study, diag_id))
+dat_sad$citation_diag <- with(dat_sad, interaction(citation, diag_id))
+detach(dat_sad)
+# aggregate by individual studies
+dat_sad <- group_by(dat_sad, citation_diag)
+dat_sad1 <- filter(dat_sad, row_number()==1 )
+dat_sad2 <- ungroup(dat_sad1)
+table1 <- select(dat_sad2, pub_year, crop,  pathogen, pathogen_group, organ,  citation, link1, link, link2)
+table1 <- arrange(table1, -pub_year)
+table1 <- unite(table1, weblink, link1, link, link2, sep = "")
 
-**SADBank** is a curated collection of studies on Standard Area Diagram sets (SADs), a pictorial representations of disease symptoms and/or signs in a plant organ where each diagram depicts a percent diseased area. They are designed in a wide range of styles and are used as tools to use during or prior to visual assessments of disease severity to "calibrate" a rater's eye and improve accuracy, precision and reliability of the estimates.
+```
 
-[Browse](grid.html) the list of articles ordered by data of publication or search for any term in the box to filter the data in the table. Click on the link to get access to the publication at the publisher's website.
+```{r include=FALSE, layout="l-page"}
+library(crosstalk)
+sd <- SharedData$new(table1)
+```
 
-**Author and maintainer**: Emerson M. Del Ponte, Ignácio Cazón\
-**Collaborators**: Kaíque S. Alves, Sheila M. Andrade, Clive H. Bock, Sami J. Michereff, Sarah J. Pethybridge
+Inputs {.sidebar}
+-------------------------------------
+
+**Filters**
+
+```{r}
+filter_slider("year", "Publication year", sd, ~pub_year, round = TRUE)
+filter_select("cropname", "Crop name", sd, ~crop)
+filter_select("pathogen", "Pathogen species name", sd, ~pathogen)
+
+```
+
+**SADBank** is a curated collection of studies on Standard Area Diagram sets (SADs), a pictorial representations of disease symptoms and/or signs in a plant organ where each diagram depicts a percent diseased area. They are designed in a wide range of styles and are used as tools to use during or prior to visual assessments of disease severity to “calibrate” a rater’s eye and improve accuracy, precision and reliability of the estimates.
+
+
+Author and maintainer: Emerson M. Del Ponte, Ignácio Cazón
+Collaborators: Kaíque S. Alves, Sheila M. Andrade, Clive H. Bock, Sami J. Michereff, Sarah J. Pethybridge
+
+
+Row
+--------------
+
+### Number of SADs
+
+```{r}
+articles <- nrow(table1)
+valueBox(articles,  icon = "fa-ruler")
+```
+
+### Number of Hosts
+
+```{r}
+hosts <- table1 %>% 
+  tabyl(crop) %>% 
+  count()
+valueBox(hosts,  icon = "fa-pagelines")
+```
+
+### Number of Pathogens
+
+```{r}
+pathogen <- table1 %>% 
+  tabyl(pathogen) %>% 
+  count()
+
+valueBox(pathogen,  icon = "fa-leaf")
+```
+
+
+
+
+Row {data-height=650}
+-------------------------------------
+
+
+
+
+
+### List of articles
+
+```{r}
+library(DT)
+datatable(sd, 
+          escape = FALSE,
+          class = 'cell-border stripe',
+        rownames = FALSE, colnames = c('Year','Crop', 'Pathogen',  'Pathogen group', 'Organ', 'citation', 'Ref'), 
+          options = list(
+  pageLength = 12,
+  fontSize = 9,
+  lengthMenu = c(25, 50, 100, 500 )
+))%>%
+formatStyle(
+  c('pub_year', 'crop',  'pathogen', 'pathogen_group', 'organ',   'citation', 'weblink'),
+  fontSize = '100%')
+
+```
+
